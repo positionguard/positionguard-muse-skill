@@ -26,17 +26,24 @@ The mapping rules live in `SKILL.md` and mirror
    set up your family group.
 2. **Create an Assistant API key.** Go to [dev.positionguardai.com](https://dev.positionguardai.com),
    sign in with the same phone number, and create a key of type **Assistant**
-   (not Integration). Members are visible to the assistant only if they turned on
-   *Let AI agents see whether I'm at an area* — that toggle is the consent gate,
-   and this whole integration is pointless without it. The key starts with `pg_live_`;
-   copy it (shown once).
+   (not Integration) with exactly these scopes: `presence:read`, `counts:read`,
+   `groups:read`. Do **not** grant `areas:read` — least privilege is part of the
+   privacy story, and area reads can expose area-center coordinates. Members are
+   visible to the assistant only if they turned on *Let AI agents see whether I'm
+   at an area* — that toggle is the consent gate, and this whole integration is
+   pointless without it. The key starts with `pg_live_`; copy it (shown once).
 3. **Install this skill.** In Muse, say:
-   > Install the PositionGuard skill from https://github.com/positionguard/muse-skill
+   > Install the PositionGuard skill from https://github.com/positionguard/positionguard-muse-skill
+   Your assistant clones the repo into its own skills — nothing to download yourself.
 4. **Connect your account.** Then say:
    > Connect my PositionGuard account
    Muse shows a secure link — paste your API key there. It goes straight to
    secure storage; nobody (not even Muse) can read it back.
 5. **Try it.** *"Where is Chris?"* / *"Who is at the lake house?"*
+
+## Troubleshooting
+
+- **"Failed to connect. Please check your API key" during setup, with a key you just minted:** known issue, not your key. Our Cloudflare configuration currently blocks the user agent Muse's validator uses, so validation fails even for valid keys. We're fixing it — retry in a bit, or reach out and we'll confirm when it's clear.
 
 ## Contents
 
@@ -46,4 +53,5 @@ The mapping rules live in `SKILL.md` and mirror
 
 ## License
 
-MIT, like the rest of the PositionGuard integrations — add your LICENSE file on publish.
+MIT.
+
